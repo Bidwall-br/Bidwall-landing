@@ -22,6 +22,7 @@ function App() {
   const [email, setEmail] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [scrollY, setScrollY] = useState(0)
+  const [showLovableApp, setShowLovableApp] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY)
@@ -38,6 +39,10 @@ function App() {
     }
   }
 
+  const handleLovableAppClick = () => {
+    setShowLovableApp(true)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       {/* Header */}
@@ -47,7 +52,7 @@ function App() {
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
               <Gavel className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
               BIDWALL
             </h1>
           </div>
@@ -86,24 +91,49 @@ function App() {
               <Button 
                 size="lg" 
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-                onClick={() => document.getElementById('newsletter').scrollIntoView({ behavior: 'smooth' })}
+                onClick={handleLovableAppClick}
               >
-                <Mail className="w-5 h-5 mr-2" />
-                Quero ser notificado
+                Peça um orçamento
               </Button>
               <Button 
                 variant="outline" 
                 size="lg"
                 className="border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg rounded-full"
-                onClick={() => document.getElementById('video').scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('newsletter').scrollIntoView({ behavior: 'smooth' })}
               >
-                <Play className="w-5 h-5 mr-2" />
-                Ver como funciona
+                <Mail className="w-5 h-5 mr-2" />
+                Quero ser notificado
               </Button>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Lovable App Section */}
+      {showLovableApp && (
+        <section className="py-16 bg-gray-100">
+          <div className="container mx-auto px-4 text-center">
+            <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+              Seu Orçamento de Pintura
+            </h3>
+            <div className="max-w-4xl mx-auto h-[800px]">
+              <iframe 
+                src="https://color-quote-pro.lovable.app/"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                title="Lovable App"
+                onLoad={() => {
+                  const iframe = document.querySelector('iframe');
+                  if (iframe && iframe.contentWindow) {
+                    iframe.contentWindow.postMessage({ type: 'setRecipient', recipient: 'contato@bidwall.com.br' }, '*');
+                  }
+                }}
+              ></iframe>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Value Proposition */}
       <section className="py-16 bg-white">
@@ -305,3 +335,4 @@ function App() {
 }
 
 export default App
+
